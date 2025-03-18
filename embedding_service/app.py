@@ -26,5 +26,5 @@ def generate_embeddings(snippet: CodeSnippet):
     code_embedding = embeddings.mean(dim=1).cpu().numpy()
 
     return {
-        "embedding": code_embedding.tolist(),
+        "embedding": code_embedding.tolist()
     }
