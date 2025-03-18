@@ -27,5 +27,4 @@ def generate_embeddings(snippet: CodeSnippet):
 
     return {
         "embedding": code_embedding.tolist(),
-        "size": code_embedding.shape
     }
