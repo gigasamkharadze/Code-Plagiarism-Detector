@@ -1,0 +1,5 @@
+repositories:
+    - url: "https://github.com/TheAlgorithms/Python.git"
+      name: "Python Algorithms"
+    - url: "https://github.com/TheAlgorithms/Java.git"
+      name: "Java Algorithms"
