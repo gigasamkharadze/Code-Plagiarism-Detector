@@ -3,10 +3,10 @@ import yaml
 import logging
 
 from dotenv import load_dotenv
-from indexing.db import DBManager
-from indexing.parser import Parser
-from indexing.utils.get_embedding import get_embedding
-from indexing.utils.get_chunks import get_chunks
+from db import DBManager
+from parser import Parser
+from utils.get_embedding import get_embedding
+from utils.get_chunks import get_chunks
 
 logging.basicConfig(level=logging.INFO)
 
