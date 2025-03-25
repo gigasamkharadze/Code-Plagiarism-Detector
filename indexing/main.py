@@ -36,7 +36,7 @@ def main():
 
         db_manager.store_embeddings(embeddings)
 
-    logging.info("Local processing complete. Starting to store embeddings in Pinecone.")
+    logging.info("Completed storing embeddings in Pinecone.")
 
 
 if __name__ == "__main__":
