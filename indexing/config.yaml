@@ -1,5 +1,20 @@
+path_to_repositories: "./repositories"
 repositories:
     - url: "https://github.com/TheAlgorithms/Python.git"
       name: "Python Algorithms"
     - url: "https://github.com/TheAlgorithms/Java.git"
       name: "Java Algorithms"
+
+file_extensions_to_parse:
+    - ".py"
+    - ".java"
+
+regex_mappings:
+    .py:
+        - "#.*"
+        - "\"\"\"[\\s\\S]*?\"\"\""
+        - "\\s+"
+    .java:
+        - "//.*"
+        - "/\\*[\\s\\S]*?\\*/"
+        - "\\s+"
