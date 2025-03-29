@@ -1,0 +1,10 @@
+Based on the following list of similar code fragments and their similarity scores,
+determine whether the input code is plagiarized.
+
+Respond with only "True" if it is plagiarized, otherwise respond with "False".
+
+
+Similar code fragments with similarity scores:
+{{similar_codes}}
+
+Response:
