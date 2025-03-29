@@ -9,7 +9,7 @@ def check_plagiarism(similar_codes):
     api_key = os.environ.get("OPENAI_API_KEY")
 
     # TODO: not good
-    with open("./utils/prompts/prompt.txt", "r") as f:
+    with open("./prompts/prompt.txt", "r") as f:
         prompt = f.read()
 
     prompt = prompt.replace("{{similar_codes}}", str(similar_codes))
