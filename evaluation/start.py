@@ -6,6 +6,7 @@ import json
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 import matplotlib.pyplot as plt
 
+
 def main():
     with open("test_data.json", "r", encoding="utf-8") as file:
         test_cases = json.load(file)
@@ -57,6 +58,7 @@ def main():
     plt.xticks(x, labels)
     plt.legend()
     plt.show()
+
 
 if __name__ == "__main__":
     main()
