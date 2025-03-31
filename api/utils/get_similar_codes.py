@@ -1,9 +1,11 @@
 import os
-from pinecone import Pinecone
 
+from dotenv import load_dotenv
+from pinecone import Pinecone
 
 def get_similar_codes(embedding):
     # TODO: Do not like read env variables here
+    load_dotenv()
     key = os.environ.get("PINECONE_KEY")
     index_name = os.environ.get("PINECONE_INDEX_NAME")
 
