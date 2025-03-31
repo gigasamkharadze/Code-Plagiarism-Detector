@@ -1,0 +1,22 @@
+[
+  {
+    "code": "def binary_coded_decimal(number: int) -> str:\n    \n    return \"0b\" + \"\".join(\n        str(bin(int(digit)))[2:].zfill(4) for digit in str(max(0, number))\n    )",
+    "is_plagiarism": 1
+  },
+  {
+    "code": "def logical_left_shift(number: int, shift_amount: int) -> str:\n    \n    if number < 0 or shift_amount < 0:\n        raise ValueError(\"both inputs must be positive integers\")\n\n    binary_number = str(bin(number))\n    binary_number += \"0\" * shift_amount\n    return binary_number",
+    "is_plagiarism": 1
+  },
+  {
+    "code": "def excess_3_code(number: int) -> str:\n    return \"0b\" + \"\".join(bin(int(digit) + 3)[2:].zfill(4) for digit in str(max(0, number)))",
+    "is_plagiarism": 0
+  },
+  {
+    "code": "def is_even(number: int) -> bool:\n    \n    return number & 1 == 0",
+    "is_plagiarism": 1
+  },
+  {
+    "code": "def is_even(number: int) -> bool:\n    return number % 2 == 0",
+    "is_plagiarism": 0
+  }
+]
