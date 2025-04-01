@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 def main():
     load_dotenv()
     api_url = os.getenv("EMBEDDINGS_API")
-    api_key = os.getenv("PINECONE_KEY")
+    db_key = os.getenv("PINECONE_KEY")
 
     with open("config.yaml", "r") as f:
         config = yaml.safe_load(f)
@@ -22,7 +22,7 @@ def main():
     parser = Parser(config)
     processed_content = parser.get_content()
 
-    db_manager = DBManager(api_key)
+    db_manager = DBManager(db_key)
     embedding_service_manager = Embedding(api_url)
 
     logging.info("Local processing complete. Starting to store embeddings in Pinecone.")
