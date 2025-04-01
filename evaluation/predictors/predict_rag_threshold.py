@@ -1,19 +1,18 @@
-from api.utils.get_embedding import get_embedding
-from api.utils.get_similar_codes import get_similar_codes
-
 import os
-
+from shared_utils.shared_utils.embeddings import Embedding
+from shared_utils.shared_utils.db import DBManager
 
 def predict(code: str) -> int:
     api_url = os.getenv("EMBEDDINGS_API")
+    db_key = os.getenv("PINECONE_KEY")
 
-    embedding = get_embedding(code, api_url)
-    similar_codes = get_similar_codes(embedding)
+    embedding_service_manager = Embedding(api_url)
+    db_manager = DBManager(db_key)
 
-    threshold = 0.5
+    embedding = embedding_service_manager.get_embedding(code, wrap_for_db=False)
+    similar_codes = db_manager.retrieve(embedding, top_k=5)
+
+    threshold = 0.3
     filtered_results = [res for res in similar_codes["matches"] if res["score"] >= threshold]
 
-    if filtered_results:
-        return 1
-
-    return 0
+    return int(bool(filtered_results))

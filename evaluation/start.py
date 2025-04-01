@@ -25,7 +25,6 @@ def main():
         rag_context_predictions.append(predict_rag_context(code))
         rag_threshold_predictions.append(predict_rag_threshold(code))
 
-    # Calculate metrics
     llm_precision = precision_score(true_labels, llm_predictions) if any(llm_predictions) else 0
     llm_recall = recall_score(true_labels, llm_predictions)
     llm_f1 = f1_score(true_labels, llm_predictions)

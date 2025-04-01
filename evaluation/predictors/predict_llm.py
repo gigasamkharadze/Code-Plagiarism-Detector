@@ -9,9 +9,10 @@ def predict(code: str):
     load_dotenv()
     api_key = os.environ.get("OPENAI_API_KEY")
 
-    # TODO: not good - extract prompt
-    prompt = f"""Is the following code plagiarized? {code}. Please answer with "1"
-    for plagiarized and "0" for not plagiarized. Do not add any other text. """
+    prompt = f"""
+    Is the following code plagiarized? {code}. 
+    Please answer with "1" for plagiarized and "0" for not plagiarized. Do not add any other text. 
+    """
 
     openai.api_key = api_key
     client = OpenAI(api_key=api_key)
@@ -23,5 +24,4 @@ def predict(code: str):
         ],
     )
 
-    result = response.choices[0].message.content.strip()
-    return int(result)
+    return int(response.choices[0].message.content.strip())
