@@ -3,14 +3,14 @@ import yaml
 import logging
 
 from dotenv import load_dotenv
-from db import DBManager
-from parser import Parser
-from utils.get_embedding import get_embedding
-from utils.get_chunks import get_chunks
+
+from shared_utils.shared_utils.chunker import get_chunks
+from shared_utils.shared_utils.embeddings import Embedding
+from shared_utils.shared_utils.parser import Parser
+from shared_utils.shared_utils.db import DBManager
 
 logging.basicConfig(level=logging.INFO)
 
-# TODO: logging
 def main():
     load_dotenv()
     api_url = os.getenv("EMBEDDINGS_API")
@@ -23,16 +23,15 @@ def main():
     processed_content = parser.get_content()
 
     db_manager = DBManager(api_key)
+    embedding_service_manager = Embedding(api_url)
 
     logging.info("Local processing complete. Starting to store embeddings in Pinecone.")
 
-    # TODO: Thread this
-    # TODO: move this to a separate function
     for processed_content in processed_content:
         chunks = get_chunks(processed_content)
         embeddings = []
         for chunks in chunks:
-            embeddings.append(get_embedding(chunks, api_url))
+            embeddings.append(embedding_service_manager.get_embedding(chunks, wrap_for_db=True))
 
         db_manager.store_embeddings(embeddings)
 
