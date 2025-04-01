@@ -22,9 +22,9 @@ class CodeInput(BaseModel):
     code: str
 
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Code Plagiarism Detector API"}
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
 
 
 @app.post("/check")

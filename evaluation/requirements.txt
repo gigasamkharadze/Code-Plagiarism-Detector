@@ -1,0 +1,9 @@
+fastapi
+pydantic
+python-dotenv
+openai
+transformers
+scikit-learn
+matplotlib
+requests
+Pinecone

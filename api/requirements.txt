@@ -1,0 +1,8 @@
+fastapi
+pydantic
+python-dotenv
+openai
+transformers
+uvicorn==0.34.0
+pinecone==6.0.2
+pinecone-client

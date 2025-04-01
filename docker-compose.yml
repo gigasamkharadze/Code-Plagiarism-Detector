@@ -1,0 +1,61 @@
+services:
+  indexing:
+    build:
+      context: ./indexing
+      dockerfile: Dockerfile
+    volumes:
+      - ./shared_utils:/app/shared_utils
+    ports:
+      - "8080:80"
+
+  embedding_service:
+    build:
+      context: ./embedding_service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./shared_utils:/app/shared_utils
+    depends_on:
+      embedding_service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
+  evaluation:
+    build:
+      context: ./evaluation
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./shared_utils:/app/shared_utils
+    depends_on:
+      api:
+        condition: service_healthy
+      embedding_service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+

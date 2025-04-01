@@ -1,10 +1,8 @@
 filelock==3.18.0
 pinecone==6.0.2
-pinecone-plugin-interface==0.0.7
 python-dotenv==1.0.1
 PyYAML==6.0.2
 regex==2024.11.6
 requests==2.32.3
 typing_extensions==4.12.2
 uvicorn==0.34.0
--e ../shared_utils

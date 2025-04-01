@@ -15,6 +15,10 @@ class CodeSnippet(BaseModel):
     code: str
 
 
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
 @app.post("/generate/")
 def generate_embeddings(snippet: CodeSnippet):
     inputs = tokenizer(snippet.code, return_tensors="pt", padding=True, truncation=True).to(device)
