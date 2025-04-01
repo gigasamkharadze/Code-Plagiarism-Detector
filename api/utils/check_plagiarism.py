@@ -4,11 +4,9 @@ from openai import OpenAI
 from transformers.models import openai
 
 
-# TODO: Need to take a look at this, looks bad
 def check_plagiarism(similar_codes):
     api_key = os.environ.get("OPENAI_API_KEY")
 
-    # TODO: not good
     with open("./prompts/prompt.txt", "r") as f:
         prompt = f.read()
 

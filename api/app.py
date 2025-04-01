@@ -5,12 +5,18 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 from utils.check_plagiarism import check_plagiarism
-from utils.get_embedding import get_embedding
-from utils.get_similar_codes import get_similar_codes
+
+from shared_utils.shared_utils.embeddings import Embedding
+from shared_utils.shared_utils.db import DBManager
 
 app = FastAPI()
 load_dotenv()
 
+api_url = os.environ.get("EMBEDDINGS_API")
+key = os.environ.get("PINECONE_KEY")
+
+embedding_service_manager = Embedding(api_url)
+db_manager = DBManager(api_key=key)
 
 class CodeInput(BaseModel):
     code: str
@@ -23,10 +29,14 @@ def read_root():
 
 @app.post("/check")
 def plagiarism(code: CodeInput):
-    # TODO: Organize the code
-    api_url = os.environ.get("EMBEDDINGS_API")
-    embedding = get_embedding(code.code, api_url)
-    similar_codes = get_similar_codes(embedding)
+    embedding = embedding_service_manager.get_embedding(code.code, wrap_for_db=False)
+    similar_codes = db_manager.retrieve(embedding, top_k=5)
+
+    if not similar_codes:
+        return {
+            "is_plagiarized": False,
+        }
+
     is_plagiarized = check_plagiarism(similar_codes)
 
     return {
