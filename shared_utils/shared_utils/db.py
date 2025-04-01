@@ -2,9 +2,10 @@ from pinecone import Pinecone, ServerlessSpec
 
 
 class DBManager:
-    def __init__(self, api_key, index_name="code-parser"):
+    def __init__(self, api_key, index_name="code-parser", dimension=768):
         self.pc = Pinecone(api_key=api_key)
         self.index_name = index_name
+        self.dimension = dimension
 
         self._create_index()
 
@@ -12,8 +13,7 @@ class DBManager:
         if self.index_name not in self.pc.list_indexes().names():
             self.pc.create_index(
                 name=self.index_name,
-                # TODO: not good - should be fixed
-                dimension=768,
+                dimension=self.dimension,
                 metric="cosine",
                 spec=ServerlessSpec(cloud="aws", region="us-east-1")
             )
