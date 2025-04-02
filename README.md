@@ -38,10 +38,11 @@ The indexing service is responsible for processing and storing code snippets in 
 Repositories are indexed **locally** that means we need to clone the repositories first.
 The step can be completed by the following steps:
 1. Update `config.py` with the path to the repositories.
-2. run `clone.py` to clone the repositories. *(you can run the script with no fear
+2. Run `clone.py` to clone the repositories. *(you can run the script with no fear
   of overwriting the existing repositories, as it will only clone the ones that are not
   already cloned - checks the dir)*
-3. run `main.py` to retrieve the code snippets from the repositories and generate embeddings.
+3. Run `main.py` to retrieve the code snippets from the repositories and generate embeddings.
+4. The `main.py` script will also store the embeddings in the `Pinecone` vector database.
 
 The latest step is kind of a **preprocessing** step being the most baffling one. 
 I approached it by manually providing:
