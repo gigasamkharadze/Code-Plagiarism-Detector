@@ -88,3 +88,34 @@ The evaluation service assesses the performance of the plagiarism detection syst
 | Only LLM    | Directly asks LLM whether the code snippet provided in the prompt is plagiarised     |
 | Our system  | Use main api described above to predict plagiarism                                   |
 
+## Configuration
+
+Each service has its own configuration file. 
+Below I will list the environmental variables to be set for each service
+
+### Indexing Service
+
+Create a `.env` file with the following variables:
+```
+PINECONE_KEY=<your_pinecone_key>
+EMBEDDINGS_API=http://embedding_service:8000/generate/
+```
+
+### API Service
+
+Create a `.env` file with the following variables:
+```
+PINECONE_KEY=<your_pinecone_key>
+OPENAI_API_KEY=<your_openai_api_key>
+PINECONE_INDEX_NAME=<your_pinecone_index_name>
+EMBEDDINGS_API=http://embedding_service:8000/generate/
+```
+
+### Evaluation Service
+Create a `.env` file with the following variables:
+```
+OPENAI_API_KEY=<your_openai_api_key>
+PINECONE_KEY=<your_pinecone_key>
+EMBEDDINGS_API=http://embedding_service:8000/generate/
+CHECK_ENDPOINT=http://api:8001/check
+```
