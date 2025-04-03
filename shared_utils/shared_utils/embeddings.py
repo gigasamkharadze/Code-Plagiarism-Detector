@@ -8,6 +8,12 @@ class Embedding:
         self.api_url = api_url
 
     def get_embedding(self, chunk: str, wrap_for_db: bool=False) -> dict[str, Any]:
+        """
+        Get the embedding for a chunk of code
+        :param chunk: piece of code to get the embedding for
+        :param wrap_for_db: if True, wrap the embedding in a dict for DB storage
+        :return: the embedding for the chunk of code
+        """
         payload = {"code": chunk}
         response = requests.post(self.api_url, json=payload)
 

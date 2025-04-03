@@ -16,10 +16,18 @@ class Parser:
         self._processed_files = []
 
     def get_content(self):
+        """
+        Get the content of the files in the directory
+        :return: the content of the files in the directory
+        """
         self._parse_directory()
         return self._processed_files
 
     def _parse_directory(self):
+        """
+        Parse the directory and its subdirectories for files with the specified extensions
+        :return: the content of the files in the directory
+        """
         with ThreadPoolExecutor() as executor:
             futures = []
             for file in self._path_to_repositories.rglob('*'):
@@ -32,6 +40,12 @@ class Parser:
 
     @staticmethod
     def _parse_file(file, regex_patterns: list[str]) -> str:
+        """
+        Parse a file and remove the specified regex patterns
+        :param file: the file to parse
+        :param regex_patterns: the regex patterns to remove
+        :return: content of the file after removing the regex patterns
+        """
         logging.info(f"Parsing file: {file}")
         content = file.read_text(encoding="utf-8", errors="ignore")
         for pattern in regex_patterns:
