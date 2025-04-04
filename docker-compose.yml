@@ -1,13 +1,4 @@
 services:
-  indexing:
-    build:
-      context: ./indexing
-      dockerfile: Dockerfile
-    volumes:
-      - ./shared_utils:/app/shared_utils
-    ports:
-      - "8080:80"
-
   embedding_service:
     build:
       context: ./embedding_service
@@ -20,6 +11,18 @@ services:
       retries: 5
       start_period: 10s
       timeout: 10s
+
+  indexing:
+    build:
+      context: ./indexing
+      dockerfile: Dockerfile
+    volumes:
+      - ./shared_utils:/app/shared_utils
+    ports:
+      - "8080:80"
+    depends_on:
+      embedding_service:
+        condition: service_started
 
   api:
     build:
@@ -49,9 +52,9 @@ services:
       - ./shared_utils:/app/shared_utils
     depends_on:
       api:
-        condition: service_healthy
+        condition: service_started
       embedding_service:
-        condition: service_healthy
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/health"]
       interval: 30s
