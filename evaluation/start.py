@@ -5,6 +5,7 @@ from predictors.predict_rag_threshold import predict as predict_rag_threshold
 import json
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 import matplotlib.pyplot as plt
+import csv
 
 
 def main():
@@ -40,24 +41,19 @@ def main():
     rag_threshold_f1 = f1_score(true_labels, rag_threshold_predictions)
     rag_threshold_accuracy = accuracy_score(true_labels, rag_threshold_predictions)
 
-    labels = ['Precision', 'Recall', 'F1 Score', 'Accuracy']
-    llm_metrics = [llm_precision, llm_recall, llm_f1, llm_accuracy]
-    rag_context_metrics = [rag_context_precision, rag_context_recall, rag_context_f1, rag_context_accuracy]
-    rag_threshold_metrics = [rag_threshold_precision, rag_threshold_recall, rag_threshold_f1, rag_threshold_accuracy]
+    metrics = [
+        ['Metric', 'LLM', 'RAG Context', 'RAG Threshold'],
+        ['Precision', llm_precision, rag_context_precision, rag_threshold_precision],
+        ['Recall', llm_recall, rag_context_recall, rag_threshold_recall],
+        ['F1 Score', llm_f1, rag_context_f1, rag_threshold_f1],
+        ['Accuracy', llm_accuracy, rag_context_accuracy, rag_threshold_accuracy]
+    ]
 
-    x = range(len(labels))
+    with open('evaluation_metrics.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(metrics)
 
-    plt.plot(x, llm_metrics, label='LLM', linestyle='dashed', marker='o', color='blue')
-    plt.plot(x, rag_context_metrics, label='RAG Context', linestyle='-.', marker='o', color='red')
-    plt.plot(x, rag_threshold_metrics, label='RAG Threshold', linestyle='dashed', marker='o', color='green')
-
-    plt.xlabel('Metrics')
-    plt.ylabel('Scores')
-    plt.title('Evaluation Metrics for Predictors')
-    plt.xticks(x, labels)
-    plt.legend()
-    plt.show()
-
+    print(metrics)
 
 if __name__ == "__main__":
     main()
