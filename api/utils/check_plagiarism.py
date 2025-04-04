@@ -16,7 +16,7 @@ def check_plagiarism(similar_codes):
     client = OpenAI(api_key=api_key)
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {"role": "user", "content": prompt},
         ],
