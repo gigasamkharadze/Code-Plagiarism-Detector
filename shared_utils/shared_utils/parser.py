@@ -12,7 +12,7 @@ class Parser:
     def __init__(self, config: dict[str, Any]):
         self._path_to_repositories = Path(config["path_to_repositories"])
         self._file_extensions_to_parse = config["file_extensions_to_parse"]
-        self._regex_mappings = config["regex_mappings"]
+        self._cleaning_regex_mappings = config["cleaning"]
         self._processed_files = []
 
     def get_content(self):
@@ -26,29 +26,29 @@ class Parser:
     def _parse_directory(self):
         """
         Parse the directory and its subdirectories for files with the specified extensions
-        :return: the content of the files in the directory
+        :return: the content of the files in the directory and corresponding suffix after removing the regex patterns
         """
         with ThreadPoolExecutor() as executor:
             futures = []
             for file in self._path_to_repositories.rglob('*'):
                 if file.is_file() and file.suffix in self._file_extensions_to_parse:
-                    regex_patterns = self._regex_mappings.get(file.suffix, [])
+                    regex_patterns = self._cleaning_regex_mappings.get(file.suffix, [])
                     futures.append(executor.submit(self._parse_file, file, regex_patterns))
 
             for future in as_completed(futures):
                 self._processed_files.append(future.result())
 
     @staticmethod
-    def _parse_file(file, regex_patterns: list[str]) -> str:
+    def _parse_file(file, regex_patterns: list[str]) -> tuple[str, str]:
         """
         Parse a file and remove the specified regex patterns
         :param file: the file to parse
         :param regex_patterns: the regex patterns to remove
-        :return: content of the file after removing the regex patterns
+        :return: content of the file after removing the regex patterns with the file extension
         """
         logging.info(f"Parsing file: {file}")
         content = file.read_text(encoding="utf-8", errors="ignore")
         for pattern in regex_patterns:
             content = re.sub(pattern, '', content)
 
-        return content
+        return content, file.suffix

@@ -27,8 +27,9 @@ def main():
 
     logging.info("Local processing complete. Starting to store embeddings in Pinecone.")
 
-    for processed_content in processed_content:
-        chunks = get_chunks(processed_content)
+    for processed_content, suffix in processed_content:
+        pattern_for_chunking = config["chunking"][suffix]
+        chunks = get_chunks(processed_content, pattern_for_chunking, include_delimiter=True)
         embeddings = []
         for chunks in chunks:
             embeddings.append(embedding_service_manager.get_embedding(chunks, wrap_for_db=True))
